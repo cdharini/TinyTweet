@@ -1,0 +1,126 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+<android.support.design.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.projects.cdharini.tinytweet.activities.TweetDetailActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"/>
+
+    </android.support.design.widget.AppBarLayout>
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.projects.cdharini.tinytweet.activities.TweetDetailActivity"
+        tools:showIn="@layout/activity_tweet_detail">
+
+        <ImageView
+            android:id="@+id/ivProfileDetailTweet"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            app:srcCompat="@drawable/ic_launcher"/>
+
+        <TextView
+            android:id="@+id/tvUserNameDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/ivProfileDetailTweet"
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@+id/ivProfileDetailTweet"
+            android:textSize="16sp"
+            tools:text="UserName"/>
+
+        <TextView
+            android:id="@+id/tvScreenNameDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/tvUserNameDetail"
+            android:layout_below="@+id/tvUserNameDetail"
+            android:layout_marginTop="10dp"
+            android:textSize="12sp"
+            tools:text="\@username"/>
+
+        <TextView
+            android:id="@+id/tvTweetDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/ivProfileDetailTweet"
+            android:layout_below="@+id/ivProfileDetailTweet"
+            android:layout_marginTop="55dp"
+            tools:text="This is a detailed view of the tweet"
+            android:autoLink="all"
+            android:textSize="24sp"/>
+
+        <TextView
+            android:id="@+id/tvNumRetweets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/tvTweetDetail"
+            android:layout_marginBottom="15dp"
+            tools:text="45"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvRetweets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tvNumRetweets"
+            android:layout_toEndOf="@+id/tvNumRetweets"
+            android:text="@string/retweets"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/tvNumLikes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tvRetweets"
+            android:layout_marginLeft="5dp"
+            android:layout_toEndOf="@+id/tvRetweets"
+            tools:text="10"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/tvLikes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tvNumLikes"
+            android:layout_toEndOf="@+id/tvNumLikes"
+            android:text="@string/likes"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/tvTweetDateDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tvNumRetweets"
+            android:layout_alignStart="@+id/ivProfileDetailTweet"
+            android:layout_marginBottom="15dp"
+            tools:text="09/27/2017, 6:02 PM"/>
+
+    </RelativeLayout>
+
+
+
+</android.support.design.widget.CoordinatorLayout>
+</layout>

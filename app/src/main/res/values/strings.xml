@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Tiny Tweet App</string>
+    <string name="login_label">Log in</string>
+    <string name="intent_scheme">oauth</string>
+    <string name="intent_host">cprest</string>
+    <string name="title_activity_timeline">TimelineActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tweet">Tweet</string>
+    <string name="ComposeTweetHint">What\'s happening?</string>
+    <string name="title_activity_tweet_detail">TweetDetailActivity</string>
+    <string name="likes">Likes</string>
+    <string name="retweets">Retweets</string>
+
+</resources>
