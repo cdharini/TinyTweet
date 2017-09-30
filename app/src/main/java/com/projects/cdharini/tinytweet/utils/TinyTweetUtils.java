@@ -4,6 +4,7 @@ import android.text.format.DateUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -29,5 +30,20 @@ public class TinyTweetUtils {
             e.printStackTrace();
         }
         return relativeDate;
+    }
+
+    public static String getDateStringForDetailTweet(String rawJsonDate) {
+        String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+        SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
+        sf.setLenient(true);
+        String dateStr = "";
+        try {
+            Date parsedDate = sf.parse(rawJsonDate);
+            sf = new SimpleDateFormat("MM/dd/yyyy, h:mm a zzz", Locale.ENGLISH);
+            dateStr = sf.format(parsedDate).toString();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dateStr;
     }
 }

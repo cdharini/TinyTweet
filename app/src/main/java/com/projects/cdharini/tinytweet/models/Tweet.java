@@ -18,10 +18,14 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 @Parcel
 public class Tweet {
 
-   private User mUser;
-   private String mText;
-    private String mCreatedAt;
-    private long mUid;
+    User mUser;
+    String mText;
+    String mCreatedAt;
+    long mUid;
+
+    int mNumRetweets;
+    int mNumLikes;
+
 
     public Tweet() {
 
@@ -33,6 +37,12 @@ public class Tweet {
         t.mText = obj.getString("text");
         t.mCreatedAt = obj.getString("created_at");
         t.mUid = obj.getLong("id");
+        t.mNumRetweets = obj.getInt("retweet_count");
+        if (obj.has("favorite_count")) {
+            t.mNumLikes = obj.getInt("favorite_count");
+        } else {
+            t.mNumLikes = 0;
+        }
         return t;
     }
 
@@ -62,5 +72,13 @@ public class Tweet {
 
     public long getUid() {
         return mUid;
+    }
+
+    public int getNumRetweets() {
+        return mNumRetweets;
+    }
+
+    public int getNumLikes() {
+        return mNumLikes;
     }
 }

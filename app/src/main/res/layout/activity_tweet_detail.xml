@@ -48,6 +48,7 @@
             android:layout_marginStart="15dp"
             android:layout_toEndOf="@+id/ivProfileDetailTweet"
             android:textSize="16sp"
+            android:textStyle="bold"
             tools:text="UserName"/>
 
         <TextView
@@ -66,7 +67,8 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/ivProfileDetailTweet"
             android:layout_below="@+id/ivProfileDetailTweet"
-            android:layout_marginTop="55dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
             tools:text="This is a detailed view of the tweet"
             android:autoLink="all"
             android:textSize="24sp"/>
@@ -86,6 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/tvNumRetweets"
+            android:layout_marginLeft="2dp"
             android:layout_toEndOf="@+id/tvNumRetweets"
             android:text="@string/retweets"
             android:textSize="12sp"/>
@@ -95,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/tvRetweets"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="7dp"
             android:layout_toEndOf="@+id/tvRetweets"
             tools:text="10"
             android:textStyle="bold"/>
@@ -106,6 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/tvNumLikes"
             android:layout_toEndOf="@+id/tvNumLikes"
+            android:layout_marginLeft="2dp"
             android:text="@string/likes"
             android:textSize="12sp"/>
 

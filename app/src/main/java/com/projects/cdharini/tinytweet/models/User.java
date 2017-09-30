@@ -10,10 +10,10 @@ import org.parceler.Parcel;
 @Parcel
 public class User {
 
-    private String mName;
-    private long mId;
-    private String mScreenName;
-    private String mProfilePicUrl;
+    String mName;
+    long mId;
+    String mScreenName;
+    String mProfilePicUrl;
 
     public User() {
 
