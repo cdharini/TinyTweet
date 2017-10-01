@@ -2,12 +2,14 @@ package com.projects.cdharini.tinytweet.activities;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.projects.cdharini.tinytweet.R;
 import com.projects.cdharini.tinytweet.databinding.ActivityTweetDetailBinding;
+import com.projects.cdharini.tinytweet.fragments.ReplyFragment;
 import com.projects.cdharini.tinytweet.models.Tweet;
 import com.projects.cdharini.tinytweet.utils.TinyTweetConstants;
 import com.projects.cdharini.tinytweet.utils.TinyTweetUtils;
@@ -39,6 +41,11 @@ public class TweetDetailActivity extends AppCompatActivity {
                 .error(R.drawable.ic_error_outline_black_24dp).into(binding.ivProfileDetailTweet);
         binding.tvNumLikes.setText(String.valueOf(tweet.getNumLikes()));
         binding.tvNumRetweets.setText(String.valueOf(tweet.getNumRetweets()));
+        binding.ibReply.setOnClickListener(v -> {
+            FragmentManager fm = getSupportFragmentManager();
+            ReplyFragment fragment = ReplyFragment.newInstance(tweet.getUser().getScreenName(), tweet.getUid());
+            fragment.show(fm, "fragment_reply_tweet");
+        });
 
     }
 }

@@ -1,12 +1,19 @@
 <resources>
 
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorIcons</item>
+        <item name="android:buttonStyle">@style/Widget.Button.Custom</item>
     </style>
+
+    <!-- This is the custom button styles for this application -->
+    <style name="Widget.Button.Custom" parent="android:Widget.Button">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorIcons</item>
+    </style>
+
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
@@ -16,6 +23,8 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
+        <item name="android:buttonStyle">@style/Widget.Button.Custom</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>

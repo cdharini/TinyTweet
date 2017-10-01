@@ -14,5 +14,8 @@
     <string name="title_activity_tweet_detail">TweetDetailActivity</string>
     <string name="likes">Likes</string>
     <string name="retweets">Retweets</string>
+    <string name="twitter">Twitter</string>
+    <string name="home_timeline">Home Timeline</string>
+    <string name="reply">Reply</string>
 
 </resources>

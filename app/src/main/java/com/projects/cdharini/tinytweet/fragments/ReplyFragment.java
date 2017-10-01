@@ -1,11 +1,8 @@
 package com.projects.cdharini.tinytweet.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +13,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.projects.cdharini.tinytweet.R;
 import com.projects.cdharini.tinytweet.TinyTweetApplication;
-import com.projects.cdharini.tinytweet.databinding.FragmentComposeTweetBinding;
 import com.projects.cdharini.tinytweet.models.Tweet;
 import com.projects.cdharini.tinytweet.networking.TwitterClient;
-import com.projects.cdharini.tinytweet.utils.TinyTweetConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,24 +24,25 @@ import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ComposeTweetFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class ComposeTweetFragment extends DialogFragment {
-    public static final String TAG = ComposeTweetFragment.class.getSimpleName();
+public class ReplyFragment extends DialogFragment {
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = ReplyFragment.class.getSimpleName();
 
-    private ImageButton btnCancel;
-    private Button btnTweet;
-    private EditText etNewTweet;
-    private TextView tvCharCount;
+    // TODO: Rename and change types of parameters
+    private String mReplyUserName;
 
-    private TwitterClient mTwitterClient;
-    private FragmentComposeTweetBinding binding;
-    private ComposeTweetDialogListener mListener;
+    Button btnReply;
+    ImageButton btnCancel;
 
-    public ComposeTweetFragment() {
+    TwitterClient mTwitterClient;
+    private TextView tvReplyTitle;
+    private EditText etReply;
+    private long mReplyToId;
+
+    public ReplyFragment() {
         // Required empty public constructor
     }
 
@@ -53,19 +50,25 @@ public class ComposeTweetFragment extends DialogFragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment ComposeTweetFragment.
+     * @return A new instance of fragment ReplyFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ComposeTweetFragment newInstance() {
-        ComposeTweetFragment fragment = new ComposeTweetFragment();
+    public static ReplyFragment newInstance(String replyToUserName, long replyToId) {
+        ReplyFragment fragment = new ReplyFragment();
         Bundle args = new Bundle();
-
+        args.putString(ARG_PARAM1, replyToUserName);
+        args.putLong(ARG_PARAM2, replyToId);
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mReplyUserName = getArguments().getString(ARG_PARAM1);
+            mReplyToId = getArguments().getLong(ARG_PARAM2);
+        }
         mTwitterClient = TinyTweetApplication.getRestClient();
     }
 
@@ -73,26 +76,32 @@ public class ComposeTweetFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentComposeTweetBinding.inflate(inflater, container, false);
-        View view = binding.getRoot();
-        btnTweet = binding.btnTweet;
-        etNewTweet = binding.etComposeTweet;
-        btnCancel = binding.ibCancel;
-        tvCharCount = binding.tvCharCount;
-        tvCharCount.setText(String.valueOf(TinyTweetConstants.MAX_TWEET_LENGTH));
-        etNewTweet.addTextChangedListener(mTextEditorWatcher);
-        btnCancel.setOnClickListener((v)-> {
-            Log.d(TAG, "Cancelling tweet");
-            dismiss();});
-
-        btnTweet.setOnClickListener((v) -> {
-            postTweet();
-        });
-        mListener = (ComposeTweetDialogListener) getActivity();
-        return view;
+        return inflater.inflate(R.layout.fragment_reply, container, false);
     }
 
-    public void postTweet() {
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        btnCancel = (ImageButton) view.findViewById(R.id.ibCancel);
+        btnReply = (Button) view.findViewById(R.id.btnSend);
+        tvReplyTitle = (TextView) view.findViewById(R.id.tvReplyTitle);
+        etReply = (EditText) view.findViewById(R.id.etReply);
+
+        //set reply title text
+        tvReplyTitle.setText("Replying to @" + mReplyUserName);
+        //set btncancel
+        btnCancel.setOnClickListener((v) -> {
+            Log.d(TAG, "Canceling reply");
+            dismiss();
+        });
+        //set btnreply
+        btnReply.setOnClickListener((v )-> {
+            postReply();
+        });
+    }
+
+    void postReply() {
         mTwitterClient.postTweet(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -100,8 +109,7 @@ public class ComposeTweetFragment extends DialogFragment {
                 Log.d(TAG, "success! " + response.toString());
                 try {
                     Tweet tweet = Tweet.fromJson(response);
-
-                    mListener.onTweetPosted(tweet);
+                    //mListener.onTweetPosted(tweet);
                 } catch (JSONException e) {
                     Log.e(TAG, "couldn't parse tweet");
                 }
@@ -143,36 +151,8 @@ public class ComposeTweetFragment extends DialogFragment {
                 //super.onSuccess(statusCode, headers, responseString);
             }
 
-        }, etNewTweet.getText().toString(), -1);
+        }, "@" + mReplyUserName + " " + etReply.getText().toString(), mReplyToId);
 
     }
 
-    private final TextWatcher mTextEditorWatcher = new TextWatcher() {
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            //This sets a textview to the current length
-            int charLeft = TinyTweetConstants.MAX_TWEET_LENGTH - s.length();
-            if (charLeft > 20) {
-                tvCharCount.setTextColor(Color.GRAY);
-                btnTweet.setEnabled(true);
-            } else  if (charLeft > 0) {
-                tvCharCount.setTextColor(Color.RED);
-                btnTweet.setEnabled(true);
-            } else {
-                tvCharCount.setTextColor(Color.RED);
-                    btnTweet.setEnabled(false);
-                }
-
-            tvCharCount.setText(String.valueOf(charLeft));
-        }
-
-        public void afterTextChanged(Editable s) {
-        }
-    };
-
-    public interface ComposeTweetDialogListener {
-        void onTweetPosted(Tweet t);
-    }
 }
