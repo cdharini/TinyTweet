@@ -2,7 +2,7 @@
 
 **TinyTweet** is an android app that allows a user to view his Twitter timeline and post a new tweet. The app utilizes [Twitter REST API](https://developer.twitter.com/en/docs/api-reference-index).
 
-Time spent: **10.5** hours spent in total
+Time spent: **12.5** hours spent in total
 
 ## User Stories
 
@@ -52,7 +52,7 @@ The following **additional** features are implemented:
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
-
+![Video Walkthrough](tinytweet-2.gif)
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 

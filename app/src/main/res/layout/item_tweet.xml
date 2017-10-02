@@ -25,7 +25,7 @@
         android:layout_marginStart="10dp"
         android:layout_toRightOf="@+id/ivProfilePic"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        tools:text="User 1"/>
+        tools:text="Long Name"/>
 
     <TextView
         android:id="@+id/tvTweet"
@@ -44,18 +44,19 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/tvUserName"
         android:layout_toEndOf="@+id/tvUserName"
+        android:layout_toLeftOf="@+id/tvTweetAge"
         android:ellipsize="end"
         android:maxLines="1"
-        tools:text="\@name"/>
+        tools:text="\@thisisalongscreenname"/>
 
     <TextView
         android:id="@+id/tvTweetAge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-        android:layout_alignTop="@+id/tvUserName"
+        android:layout_alignBottom="@+id/tvUserName"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="15dp"
-        tools:text="1hr ago"/>
+        tools:text="25 minutes ago"/>
 
 </RelativeLayout>

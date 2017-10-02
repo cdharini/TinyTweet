@@ -27,6 +27,8 @@ public class TweetDetailActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_tweet_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setLogo(R.drawable.ic_if_twitter_291710);
         Tweet tweet = (Tweet)Parcels.unwrap(getIntent().getParcelableExtra(TinyTweetConstants.EXTRA_TWEET));
         populateTweetIntoView(tweet);
     }

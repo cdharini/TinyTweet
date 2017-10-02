@@ -3,8 +3,6 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context="com.projects.cdharini.tinytweet.fragments.ReplyFragment">
-
-    <!-- TODO: Update blank fragment layout -->
 <EditText
         android:id="@+id/etReply"
         android:layout_width="wrap_content"
@@ -21,12 +19,10 @@
 
     <Button
         android:id="@+id/btnSend"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="131dp"
-        android:layout_marginStart="18dp"
-        android:layout_toEndOf="@+id/etReply"
         android:background="@color/colorPrimary"
         android:textColor="@color/colorIcons"
         android:text="@string/reply"/>
@@ -37,7 +33,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/etReply"
-        android:layout_marginStart="15dp"
         android:layout_marginTop="50dp"
         tools:text="Replying to @username"/>
 
