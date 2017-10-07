@@ -70,7 +70,7 @@
             android:layout_below="@+id/ivProfileDetailTweet"
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
-            tools:text="This is a detailed view of the tweet"
+            tools:text="This is a detailed view of the tweet. a tweet is now 111111111111111111, This is a detailed view of the tweet. a tweet is now 11111111111111111"
             android:autoLink="all"
             android:textSize="20sp"/>
 
