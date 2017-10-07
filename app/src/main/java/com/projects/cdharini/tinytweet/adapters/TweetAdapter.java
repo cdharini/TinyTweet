@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.projects.cdharini.tinytweet.R;
 import com.projects.cdharini.tinytweet.activities.TweetDetailActivity;
+import com.projects.cdharini.tinytweet.activities.UserProfileActivity;
 import com.projects.cdharini.tinytweet.models.Tweet;
 import com.projects.cdharini.tinytweet.utils.TinyTweetConstants;
 import com.projects.cdharini.tinytweet.utils.TinyTweetUtils;
@@ -85,6 +86,12 @@ public class TweetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             itemView.setOnClickListener(v -> {
                 Intent intent = new Intent(mContext, TweetDetailActivity.class);
                 intent.putExtra(TinyTweetConstants.EXTRA_TWEET, Parcels.wrap(mTweets.get(getAdapterPosition())));
+                mContext.startActivity(intent);
+            });
+
+            ivProfilePic.setOnClickListener(v-> {
+                Intent intent = new Intent(mContext, UserProfileActivity.class);
+                intent.putExtra(TinyTweetConstants.EXTRA_USER, Parcels.wrap(mTweets.get(getAdapterPosition()).getUser()));
                 mContext.startActivity(intent);
             });
         }

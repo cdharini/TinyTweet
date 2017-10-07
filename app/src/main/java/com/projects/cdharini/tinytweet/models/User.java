@@ -14,6 +14,9 @@ public class User {
     long mId;
     String mScreenName;
     String mProfilePicUrl;
+    int mFollowersCount;
+    int mFollowingCount;
+    String mDescription;
 
     public User() {
 
@@ -25,6 +28,9 @@ public class User {
         u.mScreenName = obj.getString("screen_name");
         u.mId = obj.getLong("id");
         u.mProfilePicUrl = obj.getString("profile_image_url");
+        u.mFollowersCount = obj.getInt("followers_count");
+        u.mFollowingCount = obj.getInt("friends_count");
+        u.mDescription = obj.getString("description");
         return u;
     }
     public String getName() {
@@ -41,5 +47,17 @@ public class User {
 
     public String getProfilePicUrl() {
         return mProfilePicUrl;
+    }
+
+    public int getFollowersCount() {
+        return mFollowersCount;
+    }
+
+    public int getFollowingCount() {
+        return mFollowingCount;
+    }
+
+    public String getDescription() {
+        return mDescription;
     }
 }

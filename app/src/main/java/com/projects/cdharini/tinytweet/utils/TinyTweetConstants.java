@@ -7,4 +7,5 @@ package com.projects.cdharini.tinytweet.utils;
 public class TinyTweetConstants {
     public static final int MAX_TWEET_LENGTH = 140;
     public static final String EXTRA_TWEET = "tweet";
+    public static final String EXTRA_USER = "user";
 }

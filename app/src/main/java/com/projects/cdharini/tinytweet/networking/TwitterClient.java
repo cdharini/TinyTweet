@@ -1,6 +1,7 @@
 package com.projects.cdharini.tinytweet.networking;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 
 import com.codepath.oauth.OAuthBaseClient;
 import com.github.scribejava.apis.TwitterApi;
@@ -44,14 +45,35 @@ public class TwitterClient extends OAuthBaseClient {
 						context.getString(R.string.intent_scheme), context.getPackageName(), FALLBACK_URL));
 	}
 
-	public void getTweetTimeline(AsyncHttpResponseHandler handler , long maxid) {
+	public void getTweetTimeline(AsyncHttpResponseHandler handler , long maxId) {
 		String apiUrl = getApiUrl("statuses/home_timeline.json");
-		// Can specify query string params directly or through RequestParams.
+		getTimeline(apiUrl, handler, null, maxId);
+	}
+
+	public void getMentionsTimeline(AsyncHttpResponseHandler handler, long maxId) {
+		String apiUrl = getApiUrl("statuses/mentions_timeline.json");
+		getTimeline(apiUrl, handler, null, maxId);
+	}
+
+	public void getUserTimeline(AsyncHttpResponseHandler handler, long maxId, long userId) {
+		String apiUrl = getApiUrl("statuses/user_timeline.json");
 		RequestParams params = new RequestParams();
+		params.put("user_id", userId);
+		getTimeline(apiUrl, handler, params, maxId);
+	}
+
+	public void getTimeline(String url, AsyncHttpResponseHandler handler, @Nullable RequestParams params, long maxId) {
+		// Can specify query string params directly or through RequestParams.
+		if (params == null) {
+			params = new RequestParams();
+		}
 		params.put("format", "json");
-        params.put("count", 25);
-        params.put("since_id", 1);
-		client.get(apiUrl, params, handler);
+		params.put("count", 25);
+		params.put("since_id", 1);
+		if (maxId != -1) {
+			params.put("max_id", maxId);
+		}
+		client.get(url, params, handler);
 	}
 
 	/* 1. Define the endpoint URL with getApiUrl and pass a relative path to the endpoint
@@ -73,5 +95,10 @@ public class TwitterClient extends OAuthBaseClient {
         }
 		params.put("status", status);
 		client.post(apiUrl, params, handler);
+	}
+
+	public void getCurrentUser(AsyncHttpResponseHandler handler) {
+		String apiUrl = getApiUrl("account/verify_credentials.json");
+		client.get(apiUrl, null, handler);
 	}
 }
