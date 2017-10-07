@@ -27,6 +27,10 @@ public class Tweet {
     int mNumLikes;
 
 
+    boolean mFavorited;
+    boolean mRetweeted;
+
+
     public Tweet() {
 
     }
@@ -43,6 +47,8 @@ public class Tweet {
         } else {
             t.mNumLikes = 0;
         }
+        t.mFavorited = obj.getBoolean("favorited");
+        t.mRetweeted = obj.getBoolean("retweeted");
         return t;
     }
 
@@ -80,5 +86,14 @@ public class Tweet {
 
     public int getNumLikes() {
         return mNumLikes;
+    }
+
+
+    public boolean isFavorited() {
+        return mFavorited;
+    }
+
+    public boolean isRetweeted() {
+        return mRetweeted;
     }
 }

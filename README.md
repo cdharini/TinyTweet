@@ -2,7 +2,7 @@
 
 **TinyTweet** is an android app that allows a user to view home and mentions timelines, view user profiles with user timelines, as well as compose and post a new tweet. The app utilizes [Twitter REST API](https://developer.twitter.com/en/docs/api-reference-index).
 
-Time spent: **4.5** hours spent in total
+Time spent: **6** hours spent in total
 
 ## User Stories
 
@@ -59,6 +59,9 @@ Describe any challenges encountered while building the app.
 - [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
 - [Picasso](http://square.github.io/picasso/) - Image loading and caching library for Android
 
+## Icon credits
+<div>Icons made by <a href="https://www.flaticon.com/authors/hadrien" title="Hadrien">Hadrien</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+<div>Icons made by <a href="https://www.flaticon.com/authors/icomoon" title="Icomoon">Icomoon</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 ## License
 
     Copyright [2017] [Dharini Chandrasekaran]
