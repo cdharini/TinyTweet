@@ -96,41 +96,84 @@ public class TweetDetailActivity extends AppCompatActivity {
 
     public void onRetweet(View view) {
 
-        mTwitterClient.retweet(new JsonHttpResponseHandler() {
+        if(mTweet.isRetweeted()) {
+            mTwitterClient.unretweet(new JsonHttpResponseHandler() {
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                // Set icon color to blue
-                setImageSelectedColor(binding.ivRetweet.getDrawable());
-                //Increment retweet num
-                Integer retweetnum = Integer.parseInt(binding.tvNumRetweets.getText().toString());
-                binding.tvNumRetweets.setText(String.valueOf(retweetnum + 1));
-            }
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    // Set icon color to gray
+                    setImageUnSelectedColor(binding.ivRetweet.getDrawable());
+                    //Decrement retweet num
+                    Integer retweetnum = Integer.parseInt(binding.tvNumRetweets.getText().toString());
+                    binding.tvNumRetweets.setText(String.valueOf(retweetnum - 1));
+                    mTweet.setRetweeted(false);
+                }
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    super.onFailure(statusCode, headers, throwable, errorResponse);
+                }
 
-        }, mTweet.getUid());
+            }, mTweet.getUid());
+        } else {
+            mTwitterClient.retweet(new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    // Set icon color to blue
+                    setImageSelectedColor(binding.ivRetweet.getDrawable());
+                    //Increment retweet num
+                    Integer retweetnum = Integer.parseInt(binding.tvNumRetweets.getText().toString());
+                    binding.tvNumRetweets.setText(String.valueOf(retweetnum + 1));
+                    mTweet.setRetweeted(true);
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    super.onFailure(statusCode, headers, throwable, errorResponse);
+                }
+
+            }, mTweet.getUid());
+        }
     }
 
     public void onFavorite(View v) {
-        mTwitterClient.favorite(new JsonHttpResponseHandler() {
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                // Set icon color to red
-                setImageSelectedColor(binding.ivFavorite.getDrawable(), ContextCompat.getColor(TweetDetailActivity.this, R.color.colorAppRed));
-                //Increment like num
-                Integer likenum = Integer.parseInt(binding.tvNumLikes.getText().toString());
-                binding.tvNumLikes.setText(String.valueOf(likenum + 1));
-            }
+        if (mTweet.isFavorited()) {
+            mTwitterClient.unfavorite(new JsonHttpResponseHandler() {
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-        }, mTweet.getUid());
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    // Set icon color to gray
+                    setImageUnSelectedColor(binding.ivFavorite.getDrawable());
+                    //Decrement like num
+                    Integer likenum = Integer.parseInt(binding.tvNumLikes.getText().toString());
+                    binding.tvNumLikes.setText(String.valueOf(likenum - 1));
+                    mTweet.setFavorited(false);
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    super.onFailure(statusCode, headers, throwable, errorResponse);
+                }
+            }, mTweet.getUid());
+        } else {
+            mTwitterClient.favorite(new JsonHttpResponseHandler() {
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                    // Set icon color to red
+                    setImageSelectedColor(binding.ivFavorite.getDrawable(), ContextCompat.getColor(TweetDetailActivity.this, R.color.colorAppRed));
+                    //Increment like num
+                    Integer likenum = Integer.parseInt(binding.tvNumLikes.getText().toString());
+                    binding.tvNumLikes.setText(String.valueOf(likenum + 1));
+                    mTweet.setFavorited(true);
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                    super.onFailure(statusCode, headers, throwable, errorResponse);
+                }
+            }, mTweet.getUid());
+        }
     }
 }

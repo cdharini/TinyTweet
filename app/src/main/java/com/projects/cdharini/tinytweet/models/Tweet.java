@@ -118,4 +118,13 @@ public class Tweet extends BaseModel{
     public boolean isRetweeted() {
         return mRetweeted;
     }
+
+
+    public void setFavorited(boolean favorited) {
+        mFavorited = favorited;
+    }
+
+    public void setRetweeted(boolean retweeted) {
+        mRetweeted = retweeted;
+    }
 }
