@@ -2,16 +2,13 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="com.projects.cdharini.tinytweet.activities.MainActivity">
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never"/>
+
     <item
         android:id="@+id/miActionProgress"
-        android:title="Loading..."
+        android:title="@string/loading"
         android:visible="false"
         android:orderInCategory="100"
         app:showAsAction="always"
+
         app:actionLayout="@layout/action_view_progress" />
 </menu>

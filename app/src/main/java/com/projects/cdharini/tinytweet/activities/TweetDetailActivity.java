@@ -43,6 +43,8 @@ public class TweetDetailActivity extends AppCompatActivity {
         mTweet = Parcels.unwrap(getIntent().getParcelableExtra(TinyTweetConstants.EXTRA_TWEET));
         mTwitterClient = TinyTweetApplication.getRestClient();
         populateTweetIntoView(mTweet);
+
+        setTitle("TinyTweet");
     }
 
     private void populateTweetIntoView(Tweet tweet) {

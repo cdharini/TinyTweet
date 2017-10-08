@@ -19,6 +19,7 @@ import com.projects.cdharini.tinytweet.R;
 import com.projects.cdharini.tinytweet.TinyTweetApplication;
 import com.projects.cdharini.tinytweet.adapters.TweetAdapter;
 import com.projects.cdharini.tinytweet.models.Tweet;
+import com.projects.cdharini.tinytweet.models.Tweet_Table;
 import com.projects.cdharini.tinytweet.networking.TwitterClient;
 import com.projects.cdharini.tinytweet.utils.EndlessRecyclerViewScrollListener;
 import com.projects.cdharini.tinytweet.utils.TinyTweetConstants;
@@ -132,9 +133,8 @@ public class TimelineFragment extends Fragment {
             if (page == TinyTweetConstants.HOME_TIMELINE) {
 
                 mTweets = SQLite.select().
-                        from(Tweet.class).queryList();
+                        from(Tweet.class).orderBy(Tweet_Table.mUid, false).queryList();
                 srSwipeContainer.setRefreshing(false);
-              //  mTweetAdapter.notifyItemRangeInserted(mTweetAdapter.getItemCount(), mTweets.size() - 1);
                 mTweetAdapter.addAll(mTweets);
 
             }

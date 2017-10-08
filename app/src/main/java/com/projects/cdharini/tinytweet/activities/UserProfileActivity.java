@@ -62,6 +62,8 @@ public class UserProfileActivity extends AppCompatActivity implements TimelineFr
         Glide.with(this).load(mUser.getProfilePicUrl())
                 .bitmapTransform(new CropCircleTransformation(this))
                 .error(R.drawable.ic_error_outline_black_24dp).into(ivProfile);
+
+        setTitle(mUser.getName() + "'s Timeline");
     }
 
     @Override
@@ -88,10 +90,6 @@ public class UserProfileActivity extends AppCompatActivity implements TimelineFr
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
