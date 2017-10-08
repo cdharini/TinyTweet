@@ -22,7 +22,6 @@ import com.projects.cdharini.tinytweet.models.Tweet;
 import com.projects.cdharini.tinytweet.networking.TwitterClient;
 import com.projects.cdharini.tinytweet.utils.TinyTweetConstants;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -55,11 +54,9 @@ public class ComposeTweetFragment extends DialogFragment {
      *
      * @return A new instance of fragment ComposeTweetFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static ComposeTweetFragment newInstance() {
         ComposeTweetFragment fragment = new ComposeTweetFragment();
         Bundle args = new Bundle();
-
         return fragment;
     }
 
@@ -107,40 +104,12 @@ public class ComposeTweetFragment extends DialogFragment {
                 }
 
                 dismiss();
-                //super.onSuccess(statusCode, headers, response);
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                Log.d(TAG, "success 2");
-                dismiss();
-                //super.onSuccess(statusCode, headers, response);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 Log.d(TAG, "failue 1");
                 dismiss();
-                //super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                Log.d(TAG, "failure 2");
-                dismiss();
-                //super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.d(TAG, "failue 3");
-                //super.onFailure(statusCode, headers, responseString, throwable);
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                Log.d(TAG, "succeess 3");
-                //super.onSuccess(statusCode, headers, responseString);
             }
 
         }, etNewTweet.getText().toString(), -1);

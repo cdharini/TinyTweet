@@ -31,6 +31,7 @@ public class TweetDetailActivity extends AppCompatActivity {
     ActivityTweetDetailBinding binding;
     Tweet mTweet;
     TwitterClient mTwitterClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +49,8 @@ public class TweetDetailActivity extends AppCompatActivity {
         binding.tvScreenNameDetail.setText("@" + tweet.getUser().getScreenName());
         binding.tvUserNameDetail.setText(tweet.getUser().getName());
         binding.tvTweetDetail.setText(tweet.getText());
-        binding.tvTweetDateDetail.setText(TinyTweetUtils.getDateStringForDetailTweet(tweet.getCreatedAt()));
+        binding.tvTweetDateDetail.setText(
+                TinyTweetUtils.getDateStringForDetailTweet(tweet.getCreatedAt()));
         Glide.with(this).load(tweet.getUser().getProfilePicUrl())
                 .bitmapTransform(new CropCircleTransformation(this))
                 .error(R.drawable.ic_error_outline_black_24dp).into(binding.ivProfileDetailTweet);
@@ -56,12 +58,14 @@ public class TweetDetailActivity extends AppCompatActivity {
         binding.tvNumRetweets.setText(String.valueOf(tweet.getNumRetweets()));
         binding.ibReply.setOnClickListener(v -> {
             FragmentManager fm = getSupportFragmentManager();
-            ReplyFragment fragment = ReplyFragment.newInstance(tweet.getUser().getScreenName(), tweet.getUid());
+            ReplyFragment fragment = ReplyFragment.newInstance(
+                    tweet.getUser().getScreenName(), tweet.getUid());
             fragment.show(fm, "fragment_reply_tweet");
         });
 
         if (tweet.isFavorited()) {
-            setImageSelectedColor(binding.ivFavorite.getDrawable(), ContextCompat.getColor(this, R.color.colorAppRed));
+            setImageSelectedColor(binding.ivFavorite.getDrawable(),
+                    ContextCompat.getColor(this, R.color.colorAppRed));
         } else {
             setImageUnSelectedColor(binding.ivFavorite.getDrawable());
         }
@@ -79,17 +83,19 @@ public class TweetDetailActivity extends AppCompatActivity {
     }
 
     public void setImageSelectedColor(Drawable d) {
-        setImageSelectedColor(d, ContextCompat.getColor(TweetDetailActivity.this, R.color.colorPrimary));
+        setImageSelectedColor(d,
+                ContextCompat.getColor(TweetDetailActivity.this, R.color.colorPrimary));
 
     }
 
     public void setImageUnSelectedColor(Drawable d) {
-        DrawableCompat.setTint(d, ContextCompat.getColor(TweetDetailActivity.this, R.color.colorSecondaryText));
+        DrawableCompat.setTint(d,
+                ContextCompat.getColor(TweetDetailActivity.this, R.color.colorSecondaryText));
 
     }
 
     public void onRetweet(View view) {
-        //retweet
+
         mTwitterClient.retweet(new JsonHttpResponseHandler() {
 
             @Override
@@ -107,7 +113,6 @@ public class TweetDetailActivity extends AppCompatActivity {
             }
 
         }, mTweet.getUid());
-        //onsuccess, set color to blue
     }
 
     public void onFavorite(View v) {

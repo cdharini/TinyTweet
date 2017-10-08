@@ -18,7 +18,6 @@ import com.projects.cdharini.tinytweet.TinyTweetApplication;
 import com.projects.cdharini.tinytweet.models.Tweet;
 import com.projects.cdharini.tinytweet.networking.TwitterClient;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -109,46 +108,17 @@ public class ReplyFragment extends DialogFragment {
                 Log.d(TAG, "success! " + response.toString());
                 try {
                     Tweet tweet = Tweet.fromJson(response);
-                    //mListener.onTweetPosted(tweet);
                 } catch (JSONException e) {
                     Log.e(TAG, "couldn't parse tweet");
                 }
 
                 dismiss();
-                //super.onSuccess(statusCode, headers, response);
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                Log.d(TAG, "success 2");
-                dismiss();
-                //super.onSuccess(statusCode, headers, response);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.d(TAG, "failue 1");
+                Log.d(TAG, "Failure to reply to tweet");
                 dismiss();
-                //super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
-                Log.d(TAG, "failure 2");
-                dismiss();
-                //super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                Log.d(TAG, "failue 3");
-                //super.onFailure(statusCode, headers, responseString, throwable);
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                Log.d(TAG, "succeess 3");
-                //super.onSuccess(statusCode, headers, responseString);
             }
 
         }, "@" + mReplyUserName + " " + etReply.getText().toString(), mReplyToId);

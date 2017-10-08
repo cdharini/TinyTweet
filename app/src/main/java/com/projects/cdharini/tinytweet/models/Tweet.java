@@ -2,6 +2,13 @@ package com.projects.cdharini.tinytweet.models;
 
 import android.util.Log;
 
+import com.projects.cdharini.tinytweet.MyDatabase;
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.ForeignKey;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.structure.BaseModel;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,19 +22,34 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 /**
  * Created by dharinic on 9/27/17.
  */
-@Parcel
-public class Tweet {
+@Table(database = MyDatabase.class)
+@Parcel(analyze={Tweet.class})
+public class Tweet extends BaseModel{
 
+    @Column
+    @ForeignKey(saveForeignKeyModel = true)
     User mUser;
+
+    @Column
     String mText;
+
+    @Column
     String mCreatedAt;
+
+    @Column
+    @PrimaryKey
     long mUid;
 
+    @Column
     int mNumRetweets;
+
+    @Column
     int mNumLikes;
 
-
+    @Column
     boolean mFavorited;
+
+    @Column
     boolean mRetweeted;
 
 

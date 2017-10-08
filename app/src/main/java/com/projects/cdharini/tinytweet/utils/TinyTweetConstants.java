@@ -8,4 +8,8 @@ public class TinyTweetConstants {
     public static final int MAX_TWEET_LENGTH = 140;
     public static final String EXTRA_TWEET = "tweet";
     public static final String EXTRA_USER = "user";
+
+    public static final int HOME_TIMELINE = 0;
+    public static final int MENTIONS_TIMELINE = 1;
+    public static final int USER_TIMELINE = 2;
 }

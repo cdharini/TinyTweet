@@ -1,5 +1,11 @@
 package com.projects.cdharini.tinytweet.models;
 
+import com.projects.cdharini.tinytweet.MyDatabase;
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.structure.BaseModel;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
@@ -7,15 +13,30 @@ import org.parceler.Parcel;
 /**
  * Created by dharinic on 9/27/17.
  */
-@Parcel
-public class User {
+@Table(database = MyDatabase.class)
+@Parcel(analyze={User.class})
+public class User extends BaseModel{
 
+    @Column
     String mName;
+
+    @Column
+    @PrimaryKey
     long mId;
+
+    @Column
     String mScreenName;
+
+    @Column
     String mProfilePicUrl;
+
+    @Column
     int mFollowersCount;
+
+    @Column
     int mFollowingCount;
+
+    @Column
     String mDescription;
 
     public User() {

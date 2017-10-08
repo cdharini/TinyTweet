@@ -1,5 +1,8 @@
 package com.projects.cdharini.tinytweet.utils;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.text.format.DateUtils;
 
 import java.text.ParseException;
@@ -45,5 +48,13 @@ public class TinyTweetUtils {
             e.printStackTrace();
         }
         return dateStr;
+    }
+
+    public static Boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
     }
 }

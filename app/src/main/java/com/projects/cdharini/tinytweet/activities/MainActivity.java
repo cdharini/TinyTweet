@@ -6,12 +6,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.projects.cdharini.tinytweet.R;
 import com.projects.cdharini.tinytweet.TinyTweetApplication;
@@ -25,7 +27,8 @@ import com.projects.cdharini.tinytweet.utils.TinyTweetConstants;
 import org.parceler.Parcels;
 
 
-public class MainActivity extends AppCompatActivity implements ComposeTweetFragment.ComposeTweetDialogListener{
+public class MainActivity extends AppCompatActivity
+        implements ComposeTweetFragment.ComposeTweetDialogListener, TimelineFragment.LoadCompleteListener{
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements ComposeTweetFragm
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    MenuItem miActionProgressItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +77,16 @@ public class MainActivity extends AppCompatActivity implements ComposeTweetFragm
 
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        showProgressBar();
+        // Extract the action-view from the menu item
+        ProgressBar v =  (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
+        // Return to finish
+        return super.onPrepareOptionsMenu(menu);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -99,10 +113,9 @@ public class MainActivity extends AppCompatActivity implements ComposeTweetFragm
 
     @Override
     public void onTweetPosted(Tweet t) {
-        /* tell home timeline fragment to add new tweet to timeline
-        TimelineFragment frag = (TimelineFragment) getSupportFragmentManager()
-                .findFragmentByTag("android:switcher:" +R.id.viewpager + ":" + 0);*/
-        TimelineFragment frag = (TimelineFragment) mViewPagerAdapter.getRegisteredFragment(0);
+        // tell home timeline fragment to add new tweet to timeline
+        TimelineFragment frag = (TimelineFragment)
+                mViewPagerAdapter.getRegisteredFragment(TinyTweetConstants.HOME_TIMELINE);
         frag.addTweetToTimeline(t);
     }
 
@@ -116,5 +129,25 @@ public class MainActivity extends AppCompatActivity implements ComposeTweetFragm
         intent.putExtra(TinyTweetConstants.EXTRA_USER, Parcels.wrap(user));
         this.startActivity(intent);
 
+    }
+
+    public void showProgressBar() {
+        // Show progress item
+        miActionProgressItem.setVisible(true);
+    }
+
+    public void hideProgressBar() {
+        // Hide progress item
+        miActionProgressItem.setVisible(false);
+    }
+
+    @Override
+    public void onLoadComplete() {
+        hideProgressBar();
+    }
+
+    @Override
+    public void onLoadStart() {
+        showProgressBar();
     }
 }

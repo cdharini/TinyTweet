@@ -41,14 +41,11 @@ def dbflow_version = "4.0.3"
 
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
-    // Glide for remote image loading
-    // Android Async Http for sending async network requests
     // DBFlow for simple persistence with an ORM
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
     // If you want to use the GPU Filters
-
 
     compile 'com.codepath.libraries:android-oauth-handler:1.2.5'
     compile 'com.android.support:appcompat-v7:25.3.1'

@@ -14,12 +14,19 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.projects.cdharini.tinytweet.MyDatabase;
 import com.projects.cdharini.tinytweet.R;
 import com.projects.cdharini.tinytweet.TinyTweetApplication;
 import com.projects.cdharini.tinytweet.adapters.TweetAdapter;
 import com.projects.cdharini.tinytweet.models.Tweet;
 import com.projects.cdharini.tinytweet.networking.TwitterClient;
 import com.projects.cdharini.tinytweet.utils.EndlessRecyclerViewScrollListener;
+import com.projects.cdharini.tinytweet.utils.TinyTweetConstants;
+import com.projects.cdharini.tinytweet.utils.TinyTweetUtils;
+import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.raizlabs.android.dbflow.structure.database.DatabaseWrapper;
+import com.raizlabs.android.dbflow.structure.database.transaction.ProcessModelTransaction;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -49,6 +56,7 @@ public class TimelineFragment extends Fragment {
     private EndlessRecyclerViewScrollListener mScrollListener;
     private long mMaxIdSoFar;
 
+    private LoadCompleteListener mListener;
 
     public static TimelineFragment newInstance(int page, long userId) {
         Bundle args = new Bundle();
@@ -70,6 +78,7 @@ public class TimelineFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_timeline, container, false);
+        mListener = (LoadCompleteListener) getActivity();
         return view;
     }
 
@@ -79,7 +88,8 @@ public class TimelineFragment extends Fragment {
 
         mTwitterClient = TinyTweetApplication.getRestClient();
         rvTimeline = (RecyclerView)view.findViewById(R.id.rvTimeline);
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity(),
+                LinearLayoutManager.VERTICAL, false);
         rvTimeline.setLayoutManager(manager);
         mTweets = new ArrayList<>();
         mTweetAdapter = new TweetAdapter(getActivity(), mTweets);
@@ -97,6 +107,7 @@ public class TimelineFragment extends Fragment {
             mTweetAdapter.clear();
             mScrollListener.resetState();
             Toast.makeText(getActivity(), "Refreshing", Toast.LENGTH_SHORT).show();
+            mListener.onLoadStart();
             populateTimeline(mPage, -1);
         });
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rvTimeline.getContext(),
@@ -111,9 +122,28 @@ public class TimelineFragment extends Fragment {
     }
 
     private void populateTimeline(int page, long maxId) {
-        if (page == 0) {
+
+        // check for internet
+        // if no internet, then display toast and if home timeline, populate from db
+        if(!TinyTweetUtils.isNetworkAvailable(getActivity())) {
+            Toast.makeText(getActivity(),
+                    "Unfortunately, there is no internet connection!", Toast.LENGTH_SHORT).show();
+            //load data from database
+            if (page == TinyTweetConstants.HOME_TIMELINE) {
+
+                mTweets = SQLite.select().
+                        from(Tweet.class).queryList();
+                srSwipeContainer.setRefreshing(false);
+              //  mTweetAdapter.notifyItemRangeInserted(mTweetAdapter.getItemCount(), mTweets.size() - 1);
+                mTweetAdapter.addAll(mTweets);
+
+            }
+            return;
+        }
+
+        if (page == TinyTweetConstants.HOME_TIMELINE) {
             mTwitterClient.getTweetTimeline(new TimelineResponseHandler(), maxId);
-        } else if (page == 1) {
+        } else if (page == TinyTweetConstants.MENTIONS_TIMELINE) {
             mTwitterClient.getMentionsTimeline(new TimelineResponseHandler(), maxId);
         } else {
             mTwitterClient.getUserTimeline(new TimelineResponseHandler(), maxId, mUserId);
@@ -130,12 +160,16 @@ public class TimelineFragment extends Fragment {
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-            mTweets.addAll(Tweet.fromJsonArray(response));
+            List<Tweet> newTweets = Tweet.fromJsonArray(response);
+            mTweets.addAll(newTweets);
             mTweetAdapter.notifyItemRangeInserted(mTweetAdapter.getItemCount(), mTweets.size() - 1);
             Log.d(TAG, "success, array :" + response.toString());
             srSwipeContainer.setRefreshing(false);
             mMaxIdSoFar = mTweets.get(mTweets.size() - 1).getUid();
-            super.onSuccess(statusCode, headers, response);
+            if (TinyTweetConstants.HOME_TIMELINE == mPage) {
+                saveTweetsToDatabase(newTweets);
+            }
+            mListener.onLoadComplete();
         }
 
         @Override
@@ -158,6 +192,26 @@ public class TimelineFragment extends Fragment {
         mTweets.add(0, t);
         mTweetAdapter.notifyItemRangeInserted(0, 1);
         rvTimeline.scrollToPosition(0);
+    }
+
+    public void saveTweetsToDatabase(List<Tweet> tweets) {
+        FlowManager.getDatabase(MyDatabase.class)
+                .beginTransactionAsync(new ProcessModelTransaction.Builder<>(
+                        new ProcessModelTransaction.ProcessModel<Tweet>() {
+                            @Override
+                            public void processModel(Tweet tweet, DatabaseWrapper wrapper) {
+                             tweet.save(wrapper);
+                            }
+                        }).addAll(tweets).build())  // add elements (can also handle multiple)
+                .error((transaction, error) -> {
+                        Log.d(TAG, "Error in making database transaction");
+                })
+                .success(transaction -> Log.d(TAG, "successfully saved tweets")).build().execute();
+    }
+
+    public interface LoadCompleteListener{
+        void onLoadComplete();
+        void onLoadStart();
     }
 }
 

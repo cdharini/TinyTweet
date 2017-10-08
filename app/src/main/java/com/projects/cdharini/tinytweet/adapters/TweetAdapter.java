@@ -63,7 +63,7 @@ public class TweetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    public void AddAll(List<Tweet> tweets) {
+    public void addAll(List<Tweet> tweets) {
         mTweets.addAll(tweets);
         notifyDataSetChanged();
     }
@@ -85,13 +85,15 @@ public class TweetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             itemView.setOnClickListener(v -> {
                 Intent intent = new Intent(mContext, TweetDetailActivity.class);
-                intent.putExtra(TinyTweetConstants.EXTRA_TWEET, Parcels.wrap(mTweets.get(getAdapterPosition())));
+                intent.putExtra(TinyTweetConstants.EXTRA_TWEET,
+                        Parcels.wrap(mTweets.get(getAdapterPosition())));
                 mContext.startActivity(intent);
             });
 
             ivProfilePic.setOnClickListener(v-> {
                 Intent intent = new Intent(mContext, UserProfileActivity.class);
-                intent.putExtra(TinyTweetConstants.EXTRA_USER, Parcels.wrap(mTweets.get(getAdapterPosition()).getUser()));
+                intent.putExtra(TinyTweetConstants.EXTRA_USER,
+                        Parcels.wrap(mTweets.get(getAdapterPosition()).getUser()));
                 mContext.startActivity(intent);
             });
         }

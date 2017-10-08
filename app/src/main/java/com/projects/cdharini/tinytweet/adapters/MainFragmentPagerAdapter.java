@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import com.projects.cdharini.tinytweet.fragments.TimelineFragment;
+import com.projects.cdharini.tinytweet.utils.TinyTweetConstants;
 
 /**
  * Created by dharinic on 10/3/17.
@@ -34,10 +35,10 @@ public class MainFragmentPagerAdapter extends SmartFragmentStatePagerAdapter{
     @Override
     public Fragment getItem(int position) {
         Fragment frag;
-        if (position == 0) {
-            frag = TimelineFragment.newInstance(0, -1);
+        if (position == TinyTweetConstants.HOME_TIMELINE) {
+            frag = TimelineFragment.newInstance(TinyTweetConstants.HOME_TIMELINE, -1);
         } else {
-            frag = TimelineFragment.newInstance(1, -1);
+            frag = TimelineFragment.newInstance(TinyTweetConstants.MENTIONS_TIMELINE, -1);
         }
         return frag;
     }
