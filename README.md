@@ -2,7 +2,7 @@
 
 **TinyTweet** is an android app that allows a user to view home and mentions timelines, view user profiles with user timelines, as well as compose and post a new tweet. The app utilizes [Twitter REST API](https://developer.twitter.com/en/docs/api-reference-index).
 
-Time spent: *10** hours spent in total
+Time spent: **11** hours spent in total
 
 ## User Stories
 
@@ -41,6 +41,7 @@ The following **bonus** features are implemented:
 The following **additional** features are implemented this week (optionals not completed last week):
 
 * [x] Store tweets using DBFlow and retreive them when offline.
+* [x]  When a user leaves the compose view without publishing and there is existing text, prompt to save or delete the draft. If saved, the draft should then be persisted to disk and can later be resumed from the compose view.
 
 ## Video Walkthrough
 

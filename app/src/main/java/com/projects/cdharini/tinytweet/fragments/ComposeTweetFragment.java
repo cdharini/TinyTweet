@@ -1,7 +1,9 @@
 package com.projects.cdharini.tinytweet.fragments;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.projects.cdharini.tinytweet.TinyTweetApplication;
@@ -21,6 +24,7 @@ import com.projects.cdharini.tinytweet.databinding.FragmentComposeTweetBinding;
 import com.projects.cdharini.tinytweet.models.Tweet;
 import com.projects.cdharini.tinytweet.networking.TwitterClient;
 import com.projects.cdharini.tinytweet.utils.TinyTweetConstants;
+import com.projects.cdharini.tinytweet.utils.TinyTweetUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -80,16 +84,35 @@ public class ComposeTweetFragment extends DialogFragment {
         etNewTweet.addTextChangedListener(mTextEditorWatcher);
         btnCancel.setOnClickListener((v)-> {
             Log.d(TAG, "Cancelling tweet");
-            dismiss();});
+            if (etNewTweet.getText().length() > 0) {
+                DialogFragment newFragment = (DialogFragment) ComposeAlertDialogFragment.newInstance("TinyTweet", etNewTweet.getText().toString());
+                newFragment.show(getActivity().getSupportFragmentManager(), "Alert Dialog");
+            }
+            dismiss();
+        });
 
         btnTweet.setOnClickListener((v) -> {
             postTweet();
         });
         mListener = (ComposeTweetDialogListener) getActivity();
+
+        //if already saved tweet, then show
+        SharedPreferences pref =
+                PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String savedTweet = pref.getString(TinyTweetConstants.SAVED_TWEET, "");
+        if (savedTweet.length() > 0) {
+            etNewTweet.setText(savedTweet);
+            etNewTweet.setSelection(savedTweet.length());
+        }
+
         return view;
     }
 
     public void postTweet() {
+
+        if (!TinyTweetUtils.isNetworkAvailable(getActivity())) {
+            Toast.makeText(getActivity(), "No internet, try again later!", Toast.LENGTH_SHORT).show();
+        }
         mTwitterClient.postTweet(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

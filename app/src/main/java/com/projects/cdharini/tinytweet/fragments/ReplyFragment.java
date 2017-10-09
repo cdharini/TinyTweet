@@ -11,12 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.projects.cdharini.tinytweet.R;
 import com.projects.cdharini.tinytweet.TinyTweetApplication;
 import com.projects.cdharini.tinytweet.models.Tweet;
 import com.projects.cdharini.tinytweet.networking.TwitterClient;
+import com.projects.cdharini.tinytweet.utils.TinyTweetUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -101,6 +103,10 @@ public class ReplyFragment extends DialogFragment {
     }
 
     void postReply() {
+        if (!TinyTweetUtils.isNetworkAvailable(getActivity())) {
+            Toast.makeText(getActivity(), "No internet, try again later!", Toast.LENGTH_SHORT).show();
+        }
+
         mTwitterClient.postTweet(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {

@@ -12,4 +12,5 @@ public class TinyTweetConstants {
     public static final int HOME_TIMELINE = 0;
     public static final int MENTIONS_TIMELINE = 1;
     public static final int USER_TIMELINE = 2;
+    public static final String SAVED_TWEET = "saved_tweet";
 }
